@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments.html :: head">
+</head>
+<body class="bg-light">
+<nav th:replace="fragments.html :: nav">
+</nav>
+<!-- Page Content -->
+<div class="container">
+    <div class="mt-5 row justify-content-center">
+        <div class="col-2 mt-4">
+            <div th:replace="fragments.html :: board-menu(currentMenu='main')"></div>
+        </div>
+        <div class="col-lg-8">
+            <div th:if="${message}" class="alert alert-info alert-dismissible fade show mt-3" role="alert">
+                <span th:text="${message}">완료</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true"></span>
+                </button>
+            </div>
+            <!-- Title -->
+            <h1 class="mt-4" th:text="${product.name}">Post Title</h1>
+            <hr>
+            <img th:if="${!#strings.isEmpty(product.productImage)}" class="rounded" th:src="${product.productImage}"
+                 width="500" height="500" alt="name" th:alt="${account.nickname}">
+            <hr>
+            <!-- Author -->
+            <span>작성자</span>
+            <span th:text="${account.nickname}">Start Bootstrap</span>
+            <hr>
+            <!-- Date/Time -->
+            <p th:text="${product.startDate}"></p>
+            <h2 th:text="${product.price} + '원'"></h2>
+            <form class="needs-validation col-12" action="#"
+                  th:action="@{/board/product/} + ${product.path}" th:object="${ordersProductForm}" method="post" novalidate>
+                <div class="form-group">
+                    <select th:field="*{ordersProductCnt}">
+                        <option th:each="i : ${#numbers.sequence(1, 5)}" th:value="${i}" th:text="${i} + '개'">
+                        </option>
+                    </select>
+                </div>
+
+                <hr>
+                <p th:text="${product.description}"></p>
+                <hr>
+                <div class="form-group">
+                    <button class="btn btn-primary" type="submit"
+                            aria-describedby="submitHelp">구매</button>
+                </div>
+            </form>
+    </div>
+</div>
+<script type="application/javascript">
+    (function () {
+
+    }())
+</script>
+</body>
+</html>
